@@ -1,0 +1,4 @@
+#Wed Dec 07 19:04:02 IST 2022
+base.0=/Applications/Development/ecommerceapp/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
