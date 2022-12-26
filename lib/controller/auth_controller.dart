@@ -40,14 +40,16 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     Response response = await authRepo.login(email, password);
-    print("Response in auth controller : " + response.toString());
+    print("Response in auth controller : $response");
     late ResponseModel responseModel;
-    print("Status Cod ein controller : " + response.statusCode.toString());
+    print("Status Cod ein controller : ${response.statusCode}");
     print(response.statusCode.toString());
     if (response.statusCode == 200) {
       print("Hello");
       authRepo.saveUserToken(response.body["token"]);
+      print(response.body["token"]);
       responseModel = ResponseModel(true, response.body["token"]);
+      
     } else {
       print("Nikal bsdk");
       responseModel = ResponseModel(false, response.statusText!);
@@ -60,5 +62,13 @@ class AuthController extends GetxController implements GetxService {
 
   void saveUserNumberAndPassword(String number, String password) async {
     authRepo.saveUserNumberAndPassword(number, password);
+  }
+
+  bool userLoggedIn() {
+    return authRepo.userLoggedIn();
+  }
+
+  bool clearSharedData() {
+    return authRepo.clearSharedData();
   }
 }

@@ -45,7 +45,7 @@ class SignUpPage extends StatelessWidget {
         ShowCustomSnackBar("Pass word can't be less than siz character",
             title: "password");
       } else {
-        ShowCustomSnackBar("Perfect", title: "Perfect");
+        ShowCustomSnackBar("You have Registered Succesfully", title: "Perfect");
         SignUpBody signUpBody = SignUpBody(
           name: name,
           phone: phone,
@@ -55,7 +55,7 @@ class SignUpPage extends StatelessWidget {
         authController.registration(signUpBody).then((status) {
           if (status.isSuccess) {
             print("Success Registration");
-            Get.toNamed(RouteHelper.getInitial());
+            Get.offNamed(RouteHelper.getInitial());
           } else {
             ShowCustomSnackBar(status.message);
             print(status.message.toString());

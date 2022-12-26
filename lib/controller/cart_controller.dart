@@ -1,3 +1,4 @@
+import 'package:ecommerceapp/controller/auth_controller.dart';
 import 'package:ecommerceapp/data/repositary/cart_repo.dart';
 import 'package:ecommerceapp/models/cart_model.dart';
 import 'package:ecommerceapp/models/popular_products.dart';
@@ -143,5 +144,8 @@ class CartController extends GetxController {
     update();
   }
 
-
+  void clearCartHistory() {
+    cartRepo.clearCartHistory();
+    update();
+  }
 }

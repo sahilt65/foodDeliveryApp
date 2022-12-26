@@ -1,6 +1,7 @@
 import 'package:ecommerceapp/controller/cart_controller.dart';
 import 'package:ecommerceapp/controller/popular_product_controller.dart';
 import 'package:ecommerceapp/pages/auth/sign_in_page.dart';
+import 'package:ecommerceapp/routes/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ecommerceapp/helper/dependencies.dart' as dep;
@@ -26,9 +27,9 @@ class MyApp extends StatelessWidget {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
-            home: SignInPage(),
-            // initialRoute: RouteHelper.getSplashPage(),
-            // getPages: RouteHelper.routes,
+            // home: SignInPage(),
+            initialRoute: RouteHelper.getSplashPage(),
+            getPages: RouteHelper.routes,
           );
         });
       },

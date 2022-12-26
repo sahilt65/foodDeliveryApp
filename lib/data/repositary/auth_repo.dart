@@ -20,23 +20,31 @@ class AuthRepo {
         AppConstants.REGISTRATION_URI, signUpBody.toJson());
   }
 
+  bool userLoggedIn() {
+    return sharedPreferences.containsKey(AppConstants.TOKEN);
+  }
+
   Future<String> getUserToken() async {
-    print("Token : " + sharedPreferences.getString(AppConstants.TOKEN)!);
+    // print("Token : " + sharedPreferences.getString(AppConstants.TOKEN)!);
     return await sharedPreferences.getString(AppConstants.TOKEN) ?? "None";
   }
 
   Future<Response> login(String email, String password) async {
     // print(signUpBody.toJson());
     print("Inside Auth Repo :" + email + " " + password);
-    return await apiClient.postData(
-        AppConstants.LOGIN_URI, {"email": email, "password": password});
+    return await apiClient.postData(AppConstants.LOGIN_URI, {
+      "email": email,
+      "password": password,
+      "phone": "12345678",
+      "f_name": "Sahil"
+    });
   }
 
   Future<bool> saveUserToken(String token) async {
     apiClient.token = token;
 
     apiClient.updateHeader(token);
-    // print("token" + token);
+    print("token" + token);
     return await sharedPreferences.setString(AppConstants.TOKEN, token);
   }
 
@@ -47,5 +55,15 @@ class AuthRepo {
     } catch (e) {
       throw e;
     }
+  }
+
+  bool clearSharedData() {
+    sharedPreferences.remove(AppConstants.TOKEN);
+    sharedPreferences.remove(AppConstants.PASSWORD);
+    sharedPreferences.remove(AppConstants.PHONE);
+    sharedPreferences.remove(AppConstants.PHONE);
+    apiClient.token = "";
+    apiClient.updateHeader("");
+    return true;
   }
 }

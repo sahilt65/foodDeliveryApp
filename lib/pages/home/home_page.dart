@@ -1,10 +1,9 @@
 import 'package:ecommerceapp/pages/account/account_page.dart';
-import 'package:ecommerceapp/pages/auth/sign_up_page.dart';
+import 'package:ecommerceapp/pages/auth/sign_in_page.dart';
 import 'package:ecommerceapp/pages/cart/cart_history.dart';
 import 'package:ecommerceapp/pages/home/main_food_page.dart';
 import 'package:ecommerceapp/utils/colors.dart';
 import 'package:flutter/material.dart';
-// import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   List pages = [
     MainFoodPage(),
     Container(
-      child: SignUpPage(),
+      child: Text("History Page")
     ),
     CartHistory(),
     Container(
@@ -33,55 +32,6 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _controller = PersistentTabController(initialIndex: 0);
-  // }
-  // List<Widget> _buildScreens() {
-  //   return [
-  //     MainFoodPage(),
-  //     Container(
-  //       child: Center(child: Text("Next Page")),
-  //     ),
-  //     Container(
-  //       child: Center(child: Text("Next Next Page")),
-  //     ),
-  //     Container(
-  //       child: Center(child: Text("Next Next Next Page")),
-  //     ),
-  //   ];
-  // }
-  // List<PersistentBottomNavBarItem> _navBarsItems() {
-  //   return [
-  //     PersistentBottomNavBarItem(
-  //       icon: Icon(CupertinoIcons.home),
-  //       title: ("Home"),
-  //       activeColorPrimary: CupertinoColors.activeBlue,
-  //       inactiveColorPrimary: CupertinoColors.systemGrey,
-  //     ),
-  //     PersistentBottomNavBarItem(
-  //       icon: Icon(CupertinoIcons.archivebox_fill),
-  //       title: ("Archive"),
-  //       activeColorPrimary: CupertinoColors.activeBlue,
-  //       inactiveColorPrimary: CupertinoColors.systemGrey,
-  //     ),
-  //     PersistentBottomNavBarItem(
-  //       icon: Icon(CupertinoIcons.cart_fill),
-  //       title: ("Cart"),
-  //       activeColorPrimary: CupertinoColors.activeBlue,
-  //       inactiveColorPrimary: CupertinoColors.systemGrey,
-  //     ),
-  //     PersistentBottomNavBarItem(
-  //       icon: Icon(CupertinoIcons.person),
-  //       title: ("Me"),
-  //       activeColorPrimary: CupertinoColors.activeBlue,
-  //       inactiveColorPrimary: CupertinoColors.systemGrey,
-  //     ),
-  //   ];
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

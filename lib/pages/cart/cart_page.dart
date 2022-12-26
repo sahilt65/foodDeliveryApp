@@ -1,4 +1,6 @@
 import 'package:ecommerceapp/base/no_data_page.dart';
+import 'package:ecommerceapp/base/show_custom_snack_bar.dart';
+import 'package:ecommerceapp/controller/auth_controller.dart';
 import 'package:ecommerceapp/controller/cart_controller.dart';
 import 'package:ecommerceapp/controller/popular_product_controller.dart';
 import 'package:ecommerceapp/controller/recommended_product_controller.dart';
@@ -256,71 +258,74 @@ class CartPage extends StatelessWidget {
       bottomNavigationBar: GetBuilder<CartController>(
         builder: (cartController) {
           return Container(
-            height: Dimensions.bottomHeightBar,
-            padding: EdgeInsets.only(
-              top: Dimensions.height20,
-              bottom: Dimensions.height20,
-              left: Dimensions.width20,
-              right: Dimensions.width20,
-            ),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(Dimensions.radius20 * 2),
-                  topRight: Radius.circular(Dimensions.radius20 * 2),
-                ),
-                color: AppColors.buttonBackgroundColor),
-
+              height: Dimensions.bottomHeightBar,
+              padding: EdgeInsets.only(
+                top: Dimensions.height20,
+                bottom: Dimensions.height20,
+                left: Dimensions.width20,
+                right: Dimensions.width20,
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(Dimensions.radius20 * 2),
+                    topRight: Radius.circular(Dimensions.radius20 * 2),
+                  ),
+                  color: AppColors.buttonBackgroundColor),
               child: cartController.getItems.length > 0
                   ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: Dimensions.height20,
-                        bottom: Dimensions.height20,
-                        left: Dimensions.width20,
-                        right: Dimensions.width20),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius20),
-                        color: Colors.white),
-                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          width: Dimensions.width10 / 2,
-                        ),
-                        BigText(
-                          text: "\$ ${cartController.totalAmount}",
-                        ),
-                        SizedBox(
-                          width: Dimensions.width10 / 2,
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      print("Tapped");
-                      cartController.addToHistory();
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          top: Dimensions.height20,
-                          bottom: Dimensions.height20,
-                          left: Dimensions.width20,
-                          right: Dimensions.width20),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius20),
-                        color: AppColors.mainColor,
-                      ),
-                      child: BigText(text: " check out"),
-                    ),
-                  )
+                          Container(
+                            padding: EdgeInsets.only(
+                                top: Dimensions.height20,
+                                bottom: Dimensions.height20,
+                                left: Dimensions.width20,
+                                right: Dimensions.width20),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(Dimensions.radius20),
+                                color: Colors.white),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: Dimensions.width10 / 2,
+                                ),
+                                BigText(
+                                  text: "\$ ${cartController.totalAmount}",
+                                ),
+                                SizedBox(
+                                  width: Dimensions.width10 / 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              if (Get.find<AuthController>().userLoggedIn()) {
+                                print("Tapped");
+                                cartController.addToHistory();
+                              } else {
+                                ShowCustomSnackBar(
+                                    "You haven't Logged In\nPlease Log in first");
+                                Get.toNamed(RouteHelper.getSignInPage());
+                              }
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  top: Dimensions.height20,
+                                  bottom: Dimensions.height20,
+                                  left: Dimensions.width20,
+                                  right: Dimensions.width20),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(Dimensions.radius20),
+                                color: AppColors.mainColor,
+                              ),
+                              child: BigText(text: " check out"),
+                            ),
+                          )
                         ])
-                  : Container()
-          
-          );
+                  : Container());
         },
       ),
     );

@@ -17,7 +17,7 @@ class SignUpBody {
     data["f_name"] = this.name;
     data["phone"] = this.phone;
     data["email"] = this.email;
-    data["passwor"] = this.password;
+    data["password"] = this.password;
 
     return data;
   }

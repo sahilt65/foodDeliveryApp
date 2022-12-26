@@ -42,8 +42,7 @@ class SignInPage extends StatelessWidget {
             Get.toNamed(RouteHelper.getInitial());
           } else {
             ShowCustomSnackBar(status.message);
-            print(status.message.toString());
-            status.printInfo();
+
           }
         });
         // print(signUpBody.toString());
