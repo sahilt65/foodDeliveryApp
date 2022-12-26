@@ -1,15 +1,12 @@
 # ecommerceapp
 
-A new Flutter project.
+A new Flutter project of Food Dilivery App
+here I have used laravel as backend
+I used laravel's user authentication fro login and signup method
 
-## Getting Started
+Here Few Resources for Laravel Documentation
+https://laravel.com/docs/9.x/installation
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
