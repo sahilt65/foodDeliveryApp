@@ -2,6 +2,7 @@ import 'package:ecommerceapp/base/no_data_page.dart';
 import 'package:ecommerceapp/base/show_custom_snack_bar.dart';
 import 'package:ecommerceapp/controller/auth_controller.dart';
 import 'package:ecommerceapp/controller/cart_controller.dart';
+import 'package:ecommerceapp/controller/location_controller.dart';
 import 'package:ecommerceapp/controller/popular_product_controller.dart';
 import 'package:ecommerceapp/controller/recommended_product_controller.dart';
 import 'package:ecommerceapp/routes/route_helper.dart';
@@ -303,10 +304,12 @@ class CartPage extends StatelessWidget {
                             onTap: () {
                               if (Get.find<AuthController>().userLoggedIn()) {
                                 print("Tapped");
-                                cartController.addToHistory();
+                            // cartController.addToHistory();
+                            if (Get.find<LocationController>().addressList.isEmpty) {
+                              //Get.toNamed(RouteHelper.getAddressRoute)
+                            }
                               } else {
-                                ShowCustomSnackBar(
-                                    "You haven't Logged In\nPlease Log in first");
+                            ShowCustomSnackBar("You haven't Logged In\nPlease Log in first");
                                 Get.toNamed(RouteHelper.getSignInPage());
                               }
                             },
@@ -321,7 +324,7 @@ class CartPage extends StatelessWidget {
                                     BorderRadius.circular(Dimensions.radius20),
                                 color: AppColors.mainColor,
                               ),
-                              child: BigText(text: " check out"),
+                          child: BigText(text: "Check out"),
                             ),
                           )
                         ])

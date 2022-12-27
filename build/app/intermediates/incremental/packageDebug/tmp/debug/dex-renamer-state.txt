@@ -1,4 +1,0 @@
-#Tue Dec 27 08:10:51 IST 2022
-base.0=/Applications/Development/foodDeliveryApp/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

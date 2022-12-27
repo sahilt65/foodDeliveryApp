@@ -1,8 +1,0 @@
-version: "Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)"
-options: "59307e3ce00d454e74dbb0b790ead8539e330a76e8168842da36675fe5f480b3"
-build_start_time: [1670045061, 964498996]
-build_end_time: [1670045067, 156615972]
-inputs:
-  "/Applications/Development/ecommerceapp/macos/Flutter/GeneratedPluginRegistrant.swift": [1670045035, 47034978]
-  "/Applications/Development/ecommerceapp/macos/Runner/AppDelegate.swift": [1655929743, 0]
-  "/Applications/Development/ecommerceapp/macos/Runner/MainFlutterWindow.swift": [1655929743, 0]

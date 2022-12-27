@@ -171,6 +171,7 @@ class AccountPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
+                          child: Text("Sahil"),
                           width: double.maxFinite,
                           height: Dimensions.height20 * 5,
                           margin: EdgeInsets.only(
@@ -179,10 +180,10 @@ class AccountPage extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.circular(Dimensions.radius20),
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               fit: BoxFit.cover,
                               image: AssetImage(
-                                  "assets/images/signintocontinue.png"),
+                                  'image/signintocontinue.png', package: 'assets'),
                             ),
                           ),
                         ),

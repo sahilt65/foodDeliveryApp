@@ -14,17 +14,14 @@ class RouteHelper {
   static const String recommendedFood = "/recommended-food";
   static const String cartPage = "/cart-page";
   static const String signIn = "/sign-in";
-
+  static const String addAddressPage = "";
 
   static String getSplashPage() => '$splashPage';
   static String getInitial() => '$initial';
-  static getPopularFood(int pageId, String page) =>
-      '$popularFood?pageId=$pageId&page=$page';
-  static getRecommendedFood(int pageId, String page) =>
-      '$recommendedFood?pageId=$pageId&page=$page';
+  static getPopularFood(int pageId, String page) => '$popularFood?pageId=$pageId&page=$page';
+  static getRecommendedFood(int pageId, String page) => '$recommendedFood?pageId=$pageId&page=$page';
   static String getCartPage() => '$cartPage';
   static String getSignInPage() => '$signIn';
-
 
   static List<GetPage> routes = [
     GetPage(name: splashPage, page: () => SplashScreen()),
