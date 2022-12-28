@@ -8,21 +8,23 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({Key? key}) : super(key: key);
+class AddAddressPage extends StatefulWidget {
+  const AddAddressPage({Key? key}) : super(key: key);
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State<AddAddressPage> createState() => _AddAddressPage();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _AddAddressPage extends State<AddAddressPage> {
   TextEditingController _addressController = TextEditingController();
   final TextEditingController _contactPersonName = TextEditingController();
   final TextEditingController _contactPersonNumber = TextEditingController();
-  late bool _isLoagged;
+  late bool _isLoagged = true;
   CameraPosition _cameraPosition = const CameraPosition(target: LatLng(45.51563, -122.677433), zoom: 17);
 
-  late LatLng _initialPosition;
+  LatLng _initialPosition = const LatLng(45.51563, -122.677433);
+
+  
   @override
   void initState() {
     super.initState();
@@ -53,11 +55,26 @@ class _MyWidgetState extends State<MyWidget> {
       body: Column(
         children: [
           Container(
+            margin: EdgeInsets.only(left: 5, right: 5, top: 5),
             height: 140,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(width: 2, color: Theme.of(context).primaryColor)),
+            child: Stack(
+              children: [
+                GoogleMap(
+                  initialCameraPosition: CameraPosition(target: _initialPosition, zoom: 17),
+                  zoomControlsEnabled: false,
+                  compassEnabled: false,
+                  indoorViewEnabled: true,
+                  mapToolbarEnabled: false,
+                  onCameraIdle: () {},
+                  onCameraMove: ((position) => _cameraPosition = position),
+                  onMapCreated: (GoogleMapController controller) {},
+                )
+              ],
+            ),
           )
         ],
       ),

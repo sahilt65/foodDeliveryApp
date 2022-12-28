@@ -306,7 +306,7 @@ class CartPage extends StatelessWidget {
                                 print("Tapped");
                             // cartController.addToHistory();
                             if (Get.find<LocationController>().addressList.isEmpty) {
-                              //Get.toNamed(RouteHelper.getAddressRoute)
+                              Get.toNamed(RouteHelper.getAddressPage());
                             }
                               } else {
                             ShowCustomSnackBar("You haven't Logged In\nPlease Log in first");

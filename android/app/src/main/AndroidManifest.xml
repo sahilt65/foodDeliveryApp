@@ -1,9 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ecommerceapp">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
    <application
         android:label="Fast Delivery"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+              android:name="com.google.android.geo.API_KEY"
+              android:value="AIzaSyBn2qBP71mWMoYMAOctnRdsN1dFL0gA4rs"
+              />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -21,10 +28,7 @@
               android:resource="@style/NormalTheme"
               />
 
-            <meta-data
-              android:name="com.google.android.geo.API_KEY"
-              android:value="put your gmaps api key"
-              />
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

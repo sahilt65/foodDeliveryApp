@@ -64,8 +64,7 @@ class AccountPage extends StatelessWidget {
                                         iconSize: Dimensions.height10 * 5 / 2,
                                         size: Dimensions.height10 * 4,
                                       ),
-                                      bigText: BigText(
-                                          text: userController.userModel.name),
+                                      bigText: BigText(text: userController.userModel.name),
                                     ),
                                     SizedBox(
                                       height: Dimensions.height20,
@@ -80,8 +79,7 @@ class AccountPage extends StatelessWidget {
                                         iconSize: Dimensions.height10 * 5 / 2,
                                         size: Dimensions.height10 * 4,
                                       ),
-                                      bigText: BigText(
-                                          text: userController.userModel.phone),
+                                      bigText: BigText(text: userController.userModel.phone),
                                     ),
                                     SizedBox(
                                       height: Dimensions.height20,
@@ -95,22 +93,26 @@ class AccountPage extends StatelessWidget {
                                         iconSize: Dimensions.height10 * 5 / 2,
                                         size: Dimensions.height10 * 4,
                                       ),
-                                      bigText: BigText(
-                                          text: userController.userModel.email),
+                                      bigText: BigText(text: userController.userModel.email),
                                     ),
                                     SizedBox(
                                       height: Dimensions.height20,
                                     ),
                                     //address
-                                    AccountWidget(
-                                      appIcon: AppIcon(
-                                        icon: Icons.location_on,
-                                        iconColor: Colors.white,
-                                        backgroundColor: AppColors.yellowColor,
-                                        iconSize: Dimensions.height10 * 5 / 2,
-                                        size: Dimensions.height10 * 4,
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Get.toNamed(RouteHelper.getAddressPage());
+                                      },
+                                      child: AccountWidget(
+                                        appIcon: AppIcon(
+                                          icon: Icons.location_on,
+                                          iconColor: Colors.white,
+                                          backgroundColor: AppColors.yellowColor,
+                                          iconSize: Dimensions.height10 * 5 / 2,
+                                          size: Dimensions.height10 * 4,
+                                        ),
+                                        bigText: BigText(text: "Dhankawadi Pune"),
                                       ),
-                                      bigText: BigText(text: "Dhankawadi Pune"),
                                     ),
                                     SizedBox(
                                       height: Dimensions.height20,
@@ -132,15 +134,11 @@ class AccountPage extends StatelessWidget {
                                     //Logout
                                     GestureDetector(
                                       onTap: () {
-                                        if (Get.find<AuthController>()
-                                            .userLoggedIn()) {
-                                          Get.find<AuthController>()
-                                              .clearSharedData();
+                                        if (Get.find<AuthController>().userLoggedIn()) {
+                                          Get.find<AuthController>().clearSharedData();
                                           Get.find<CartController>().clear();
-                                          Get.find<CartController>()
-                                              .clearCartHistory();
-                                          Get.offNamed(
-                                              RouteHelper.getSignInPage());
+                                          Get.find<CartController>().clearCartHistory();
+                                          Get.offNamed(RouteHelper.getSignInPage());
                                         }
                                       },
                                       child: AccountWidget(
@@ -174,16 +172,12 @@ class AccountPage extends StatelessWidget {
                           child: Text("Sahil"),
                           width: double.maxFinite,
                           height: Dimensions.height20 * 5,
-                          margin: EdgeInsets.only(
-                              left: Dimensions.width20,
-                              right: Dimensions.width20),
+                          margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
                           decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius20),
+                            borderRadius: BorderRadius.circular(Dimensions.radius20),
                             image: const DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage(
-                                  'image/signintocontinue.png', package: 'assets'),
+                              image: AssetImage('image/signintocontinue.png', package: 'assets'),
                             ),
                           ),
                         ),
@@ -194,13 +188,10 @@ class AccountPage extends StatelessWidget {
                           child: Container(
                             width: double.maxFinite,
                             height: Dimensions.height20 * 5,
-                            margin: EdgeInsets.only(
-                                left: Dimensions.width20,
-                                right: Dimensions.width20),
+                            margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
                             decoration: BoxDecoration(
                               color: AppColors.mainColor,
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.radius20),
+                              borderRadius: BorderRadius.circular(Dimensions.radius20),
                             ),
                             child: Center(
                               child: BigText(
