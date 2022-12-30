@@ -36,7 +36,7 @@
         android:label="Fast Delivery" >
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBn2qBP71mWMoYMAOctnRdsN1dFL0gA4rs" />
+            android:value="AIzaSyAjzuJbTi5ClDilGr0FMLQ2ODZBEXSwmhU" />
 
         <activity
             android:name="com.example.ecommerceapp.MainActivity"

@@ -106,4 +106,8 @@ class LocationController extends GetxController implements GetxService {
     print("Address : $_address");
     return _address;
   }
+
+  getUserAddress() {
+    late AddressModel _addressModel;
+  }
 }
