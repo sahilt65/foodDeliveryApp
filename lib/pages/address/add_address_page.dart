@@ -2,6 +2,9 @@ import 'package:ecommerceapp/controller/auth_controller.dart';
 import 'package:ecommerceapp/controller/location_controller.dart';
 import 'package:ecommerceapp/controller/user_controller.dart';
 import 'package:ecommerceapp/utils/colors.dart';
+import 'package:ecommerceapp/utils/dimensions.dart';
+import 'package:ecommerceapp/widgets/app_text_field.dart';
+import 'package:ecommerceapp/widgets/big_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -24,7 +27,6 @@ class _AddAddressPage extends State<AddAddressPage> {
 
   LatLng _initialPosition = const LatLng(45.51563, -122.677433);
 
-  
   @override
   void initState() {
     super.initState();
@@ -48,36 +50,60 @@ class _AddAddressPage extends State<AddAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Address Page"),
-        backgroundColor: AppColors.mainColor,
-      ),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 5, right: 5, top: 5),
-            height: 140,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(width: 2, color: Theme.of(context).primaryColor)),
-            child: Stack(
-              children: [
-                GoogleMap(
-                  initialCameraPosition: CameraPosition(target: _initialPosition, zoom: 17),
-                  zoomControlsEnabled: false,
-                  compassEnabled: false,
-                  indoorViewEnabled: true,
-                  mapToolbarEnabled: false,
-                  onCameraIdle: () {},
-                  onCameraMove: ((position) => _cameraPosition = position),
-                  onMapCreated: (GoogleMapController controller) {},
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: Text("Address Page"),
+          backgroundColor: AppColors.mainColor,
+        ),
+        body: GetBuilder<UserController>(
+          builder: (userController) {
+            return GetBuilder<LocationController>(
+              builder: (locationController) {
+                _addressController.text = '${locationController.placemark.name ?? ''}'
+                    '${locationController.placemark.locality ?? ''}'
+                    '${locationController.placemark.postalCode ?? ''}'
+                    '${locationController.placemark.country ?? ''}';
+                print("Address in y view is : " + _addressController.text);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 5, right: 5, top: 5),
+                      height: 400,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(width: 2, color: Theme.of(context).primaryColor)),
+                      child: Stack(
+                        children: [
+                          GoogleMap(
+                            initialCameraPosition: CameraPosition(target: _initialPosition, zoom: 17),
+                            zoomControlsEnabled: false,
+                            compassEnabled: false,
+                            indoorViewEnabled: true,
+                            mapToolbarEnabled: false,
+                            onCameraIdle: () {
+                              locationController.updatePosition(_cameraPosition, true);
+                            },
+                            onCameraMove: ((position) => _cameraPosition = position),
+                            onMapCreated: (GoogleMapController controller) {
+                              locationController.setMapController(controller);
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: Dimensions.height20),
+                    Padding(
+                      padding: EdgeInsets.only(left: Dimensions.width20),
+                      child: BigText(text: "Delivery Address"),
+                    ),
+                    SizedBox(height: Dimensions.height20),
+                    AppTextField(textEditingController: _addressController, hintText: "Your Address", icon: Icons.map)
+                  ],
+                );
+              },
+            );
+          },
+        ));
   }
 }

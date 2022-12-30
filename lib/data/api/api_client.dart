@@ -10,7 +10,7 @@ class ApiClient extends GetConnect implements GetxService {
   late Map<String, String> _mainHeaders;
   ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
     baseUrl = appBaseUrl;
-    timeout = const Duration(seconds: 30);
+    timeout = const Duration(seconds: 60);
     token = "";
     print("sfbifd $token");
     token = sharedPreferences.getString(AppConstants.TOKEN) ?? " ";
@@ -22,7 +22,17 @@ class ApiClient extends GetConnect implements GetxService {
 
   Future<Response> getData(String uri, {Map<String, String>? headers}) async {
     try {
-      Response response = await get(uri, headers: headers ?? _mainHeaders);
+      print("Inside get data");
+      print(
+        "Uri : " + uri + " headers : " + headers.toString() == null ? _mainHeaders : headers.toString(),
+      );
+      Response response = await get(
+        uri,
+        headers: headers ?? _mainHeaders,
+      );
+      print("Insidetry status code" + response.statusCode.toString());
+      print("Inside try body " + response.body.toString());
+
       return response;
     } catch (e) {
       return Response(statusCode: 1, statusText: e.toString());
