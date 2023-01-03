@@ -16,7 +16,7 @@ dependencies:
   get: ^4.1.4
   dots_indicator: ^2.0.0
   shared_preferences: ^2.0.15
-  intl : ^0.17.0
+  intl : ^0.18.0
   google_maps_flutter: ^2.2.2
   geolocator: ^9.0.2
   permission_handler: ^10.2.0

@@ -15,7 +15,6 @@ class AuthRepo {
   });
 
   Future<Response> registration(SignUpBody signUpBody) async {
-    // print(signUpBody.toJson());
     return await apiClient.postData(
         AppConstants.REGISTRATION_URI, signUpBody.toJson());
   }
@@ -25,12 +24,10 @@ class AuthRepo {
   }
 
   Future<String> getUserToken() async {
-    // print("Token : " + sharedPreferences.getString(AppConstants.TOKEN)!);
     return await sharedPreferences.getString(AppConstants.TOKEN) ?? "None";
   }
 
   Future<Response> login(String email, String password) async {
-    // print(signUpBody.toJson());
     print("Inside Auth Repo :" + email + " " + password);
     return await apiClient.postData(AppConstants.LOGIN_URI, {
       "email": email,
@@ -44,7 +41,6 @@ class AuthRepo {
     apiClient.token = token;
 
     apiClient.updateHeader(token);
-    print("token" + token);
     return await sharedPreferences.setString(AppConstants.TOKEN, token);
   }
 

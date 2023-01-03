@@ -22,22 +22,23 @@ class ApiClient extends GetConnect implements GetxService {
 
   Future<Response> getData(String uri, {Map<String, String>? headers}) async {
     try {
-      print("inhgfgfcfg" + uri);
+      print("inhgfgfcfg : " + uri);
       print("Inside get data");
       if (headers == null) {
         headers = {
           'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
         };
       }
 
-      print("hgjjuhjjjjj" + headers.toString());
+      print("hgjjuhjjjjj  $headers");
 
       Response response = await get(
         uri,
         headers: headers,
       );
-      print("Insidetry status code" + response.statusCode.toString());
-      print("Inside try body " + response.body.toString());
+      print("Insidetry status code ${response.statusCode}");
+      print("Inside try body ${response.body}");
 
       return response;
     } catch (e) {

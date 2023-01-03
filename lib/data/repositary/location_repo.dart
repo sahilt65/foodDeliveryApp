@@ -1,3 +1,4 @@
+import 'package:ecommerceapp/models/address_model.dart';
 import 'package:ecommerceapp/utils/app_constants.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
@@ -18,5 +19,22 @@ class LocationRepo {
         '?lat=${latLng.latitude}&lng=${latLng.longitude}');
     return await apiClient.getData('${AppConstants.GEOCODE_URI}'
         '?lat=${latLng.latitude}&lng=${latLng.longitude}');
+  }
+
+  String getUserAddress() {
+    return sharedPreferences.getString(AppConstants.USER_ADDRESS) ?? "";
+  }
+
+  Future<Response> addAddress(AddressModel addressModel) async {
+    return await apiClient.postData(AppConstants.ADD_USER_ADDRESS, addressModel.toJson());
+  }
+
+  Future<Response> getAllAddress() async {
+    return await apiClient.getData(AppConstants.ADDRESS_LIST_URI);
+  }
+
+  Future<bool> saveUseraddress(String address) async {
+    apiClient.updateHeader(sharedPreferences.getString(AppConstants.TOKEN)!);
+    return await sharedPreferences.setString(AppConstants.USER_ADDRESS, address);
   }
 }

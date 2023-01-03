@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class AddressModel {
   late int? _id;
   late String _addressType;
@@ -41,5 +43,18 @@ class AddressModel {
     _address = json["address"];
     _lattitude = json["lattitude"];
     _longitude = json["longitute"];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = this._id;
+    data['address_type'] = this._addressType;
+    data['contact_person_name'] = this._contactPersonName;
+    data['contact_person_number'] = this._contactPersonNumber;
+    data['longitude'] = this._longitude;
+    data['lattitude'] = this._lattitude;
+    data['address'] = this._address;
+
+    return data;
   }
 }

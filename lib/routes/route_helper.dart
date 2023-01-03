@@ -1,4 +1,6 @@
+import 'package:ecommerceapp/helper/dependencies.dart';
 import 'package:ecommerceapp/pages/address/add_address_page.dart';
+import 'package:ecommerceapp/pages/address/pick_address_map.dart';
 import 'package:ecommerceapp/pages/auth/sign_in_page.dart';
 import 'package:ecommerceapp/pages/cart/cart_page.dart';
 import 'package:ecommerceapp/pages/food/popular_food_detail.dart';
@@ -16,6 +18,7 @@ class RouteHelper {
   static const String cartPage = "/cart-page";
   static const String signIn = "/sign-in";
   static const String addAddress = "/add-address";
+  static const String pickAddressMap = "/pick-address";
 
   static String getSplashPage() => '$splashPage';
   static String getInitial() => '$initial';
@@ -24,11 +27,22 @@ class RouteHelper {
   static String getCartPage() => '$cartPage';
   static String getSignInPage() => '$signIn';
   static String getAddressPage() => '$addAddress';
-
+  static String getPickAddressPage() => '$pickAddressMap';
 
   static List<GetPage> routes = [
+    GetPage(
+        name: pickAddressMap,
+        page: () {
+          PickAddressMap _pickAddress = Get.arguments;
+          return _pickAddress;
+        }),
     GetPage(name: splashPage, page: () => SplashScreen()),
-    GetPage(name: "/", page: () => HomePage()),
+    GetPage(
+        name: initial,
+        page: () {
+          return HomePage();
+        },
+        transition: Transition.fade),
     GetPage(
       name: signIn,
       page: () {

@@ -227,6 +227,7 @@ class RecommendedFoodDetails extends StatelessWidget {
               ],
             );
           },
-        ));
+      ),
+    );
   }
 }

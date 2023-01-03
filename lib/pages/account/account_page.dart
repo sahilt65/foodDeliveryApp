@@ -1,6 +1,7 @@
 import 'package:ecommerceapp/base/custom_loader.dart';
 import 'package:ecommerceapp/controller/auth_controller.dart';
 import 'package:ecommerceapp/controller/cart_controller.dart';
+import 'package:ecommerceapp/controller/location_controller.dart';
 import 'package:ecommerceapp/controller/user_controller.dart';
 import 'package:ecommerceapp/routes/route_helper.dart';
 import 'package:ecommerceapp/utils/colors.dart';
@@ -99,9 +100,11 @@ class AccountPage extends StatelessWidget {
                                       height: Dimensions.height20,
                                     ),
                                     //address
-                                    GestureDetector(
+                                    GetBuilder<LocationController>(builder: (locationController) {
+                                      if (userLoggedIn && locationController.addressList.isEmpty) {
+                                        return GestureDetector(
                                       onTap: () {
-                                        // Get.toNamed(RouteHelper.getAddressPage());
+                                            Get.offNamed(RouteHelper.getAddressPage());
                                       },
                                       child: AccountWidget(
                                         appIcon: AppIcon(
@@ -111,9 +114,27 @@ class AccountPage extends StatelessWidget {
                                           iconSize: Dimensions.height10 * 5 / 2,
                                           size: Dimensions.height10 * 4,
                                         ),
-                                        bigText: BigText(text: "Dhankawadi Pune"),
+                                            bigText: BigText(text: "Fill in your Address"),
                                       ),
-                                    ),
+                                        );
+                                      } else {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Get.offNamed(RouteHelper.getAddressPage());
+                                          },
+                                          child: AccountWidget(
+                                            appIcon: AppIcon(
+                                              icon: Icons.location_on,
+                                              iconColor: Colors.white,
+                                              backgroundColor: AppColors.yellowColor,
+                                              iconSize: Dimensions.height10 * 5 / 2,
+                                              size: Dimensions.height10 * 4,
+                                            ),
+                                            bigText: BigText(text: "Your address"),
+                                          ),
+                                        );
+                                      }
+                                    }),
                                     SizedBox(
                                       height: Dimensions.height20,
                                     ),
