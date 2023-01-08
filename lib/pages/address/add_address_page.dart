@@ -40,8 +40,10 @@ class _AddAddressPage extends State<AddAddressPage> {
     }
 
     if (Get.find<LocationController>().addressList.isNotEmpty) {
-      if (Get.find<LocationController>().getUserAddressFromLocalStorage() == " ") {
-        Get.find<LocationController>().saveUserAddress(Get.find<LocationController>().addressList.last);
+      if (Get.find<LocationController>().getUserAddressFromLocalStorage() == "") {
+        Get.find<LocationController>().saveUserAddress(
+          Get.find<LocationController>().addressList.last,
+        );
       }
       Get.find<LocationController>().getUserAddress();
       _cameraPosition = CameraPosition(

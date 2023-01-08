@@ -2,7 +2,6 @@
 import 'dart:convert';
 import 'package:ecommerceapp/models/address_model.dart';
 import 'package:ecommerceapp/models/response_model.dart';
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
@@ -25,6 +24,13 @@ class LocationController extends GetxController implements GetxService {
   List<AddressModel> _addressList = [];
   late List<AddressModel> _allAddressList = [];
   List<String> _addressTypelist = ["home", "office", "others"];
+
+  bool _isLoading = false; //For Service Zone
+  bool get isLoading => _isLoading;
+  bool _inZone = false; //Whether the user is in service zone or not
+  bool get inZone => _inZone;
+  bool _buttonDisabled = true; //showing and hiding the button as map loads
+  bool get buttonDisabled => _buttonDisabled;
 
   int _addressTypeIndex = 0;
 
@@ -78,6 +84,12 @@ class LocationController extends GetxController implements GetxService {
           );
         }
 
+        ResponseModel _responseModel =
+            await getZone(position.target.latitude.toString(), position.target.longitude.toString(), false);
+        /*
+            if button value is false we are in the service area
+            */
+        _buttonDisabled = !_responseModel.isSuccess;
         if (_changeAddress) {
           print("${position.target.latitude}longitude${position.target.longitude}");
           String _address = await getAddressfromGeocode(LatLng(
@@ -90,6 +102,10 @@ class LocationController extends GetxController implements GetxService {
       } catch (e) {
         print(e);
       }
+      _loading = false;
+      update();
+    } else {
+      _updateAddressData = true;
     }
   }
 
@@ -146,6 +162,7 @@ class LocationController extends GetxController implements GetxService {
       responseModel = ResponseModel(false, response.statusText!);
     }
     update();
+
     return responseModel;
   }
 
@@ -172,5 +189,39 @@ class LocationController extends GetxController implements GetxService {
 
   getUserAddressFromLocalStorage() {
     return locationRepo.getUserAddress();
+  }
+
+  setAddAddressData() {
+    _position = _pickPosition;
+    _placemark = _pickPlacemark;
+    _updateAddressData = false;
+    update();
+  }
+
+  Future<ResponseModel> getZone(String lat, String lng, bool markerLoad) async {
+    late ResponseModel _responseModel;
+    if (markerLoad) {
+      _loading = true;
+    } else {
+      _isLoading = true;
+    }
+
+    update();
+    Response response = (await locationRepo.getZone(lat, lng));
+    if (response.statusCode == 200) {
+      _inZone = true;
+      _responseModel = ResponseModel(true, response.body["zone-id"].toString());
+    } else {
+      _inZone = false;
+      _responseModel = ResponseModel(true, response.statusText!);
+    }
+    if (markerLoad) {
+      _loading = false;
+    } else {
+      _isLoading = false;
+    }
+    print("Zone Response code is : " + response.statusCode.toString());
+    update();
+    return _responseModel;
   }
 }
