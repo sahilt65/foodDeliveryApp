@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'package:ecommerceapp/data/api/api_checker.dart';
 import 'package:ecommerceapp/models/address_model.dart';
 import 'package:ecommerceapp/models/response_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
@@ -9,6 +12,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 
 import 'package:ecommerceapp/data/repositary/location_repo.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/src/places.dart';
 
 class LocationController extends GetxController implements GetxService {
   LocationRepo locationRepo;
@@ -47,6 +51,9 @@ class LocationController extends GetxController implements GetxService {
   GoogleMapController get mapController => _mapController;
   bool _updateAddressData = true;
   bool _changeAddress = true;
+
+  /*save the google maps suggestion for address*/
+  List<Prediction> _predictionList = [];
 
   void setMapController(GoogleMapController mapController) {
     _mapController = mapController;
@@ -98,6 +105,8 @@ class LocationController extends GetxController implements GetxService {
           ));
           print("hfbdrgber : " + _address);
           fromAddress ? _placemark = Placemark(name: _address) : _pickPlacemark = Placemark(name: _address);
+        } else {
+          _changeAddress = true;
         }
       } catch (e) {
         print(e);
@@ -113,10 +122,13 @@ class LocationController extends GetxController implements GetxService {
     String _address = "Unknown Location Found";
 
     Response response = await locationRepo.getAddressfromGeocode(latLng);
-    print("Status Code : ${response.statusCode}");
+    print("Status cys Code : ${response.statusCode}");
     print(response.body);
+    print("Hey shail  : ${response.body["plus_code"].toString()}");
+    print("Hey shail  : ${response.body["results"][0]["formatted_address"].toString()}");
     if (response.body["status"] == "OK") {
-      _address = response.body["result"][0]['formatted_address'].toString();
+      print("Hey");
+      _address = response.body["results"][0]["formatted_address"].toString();
       print("Printing Address : $_address");
     } else {
       print("Error getting the google api");
@@ -153,8 +165,10 @@ class LocationController extends GetxController implements GetxService {
     Response response = await locationRepo.addAddress(addressModel);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
+      print("He323y");
       await getAddressList();
       String message = response.body["message"];
+      print("skdjfn" + message);
       responseModel = ResponseModel(true, message);
       await saveUserAddress(addressModel);
     } else {
@@ -168,11 +182,11 @@ class LocationController extends GetxController implements GetxService {
 
   getAddressList() async {
     Response response = await locationRepo.getAllAddress();
-
     if (response.statusCode == 200) {
       _allAddressList = [];
       _addressList = [];
-      response.body.foEach((address) {
+      response.body.forEach((address) {
+        print(_addressList);
         _addressList.add(AddressModel.fromJson(address));
         _allAddressList.add(AddressModel.fromJson(address));
       });
@@ -223,5 +237,48 @@ class LocationController extends GetxController implements GetxService {
     print("Zone Response code is : " + response.statusCode.toString());
     update();
     return _responseModel;
+  }
+
+  Future<List<Prediction>> searchLocation(BuildContext context, String text) async {
+    print(text + "hey strinf");
+    if (!text.isEmpty) {
+      // print
+      Response response = await locationRepo.searchLocation(text);
+      print("Status code hey : " + response.statusCode.toString());
+      if (response.statusCode == 200 && response.body['status'] == 'OK') {
+        _predictionList = [];
+        response.body['predictions'].forEach((prediction) => _predictionList.add(Prediction.fromJson(prediction)));
+      } else {
+        ApiChecker.checkApi(response);
+      }
+    }
+    return _predictionList;
+  }
+
+  setLocation(String placeId, String address, GoogleMapController mapController) async {
+    _loading = true;
+    update();
+    PlacesDetailsResponse detail;
+    Response response = await locationRepo.setLocation(placeId);
+    detail = PlacesDetailsResponse.fromJson(response.body);
+    _pickPosition = Position(
+      latitude: detail.result.geometry!.location.lat,
+      longitude: detail.result.geometry!.location.lng,
+      timestamp: DateTime.now(),
+      accuracy: 1,
+      altitude: 1,
+      heading: 1,
+      speed: 1,
+      speedAccuracy: 1,
+    );
+
+    _pickPlacemark = Placemark(name: address);
+    _changeAddress = false;
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(detail.result.geometry!.location.lat, detail.result.geometry!.location.lng),
+      zoom: 17,
+    )));
+    _loading = false;
+    update();
   }
 }

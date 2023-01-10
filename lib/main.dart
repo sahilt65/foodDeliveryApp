@@ -1,5 +1,6 @@
 import 'package:ecommerceapp/controller/cart_controller.dart';
 import 'package:ecommerceapp/controller/popular_product_controller.dart';
+import 'package:ecommerceapp/pages/address/widgets/search_location_dialog.dart';
 import 'package:ecommerceapp/routes/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
-            // home: SignInPage(),
+            // home: LocationDialog(),
             initialRoute: RouteHelper.getSplashPage(),
             getPages: RouteHelper.routes,
           );

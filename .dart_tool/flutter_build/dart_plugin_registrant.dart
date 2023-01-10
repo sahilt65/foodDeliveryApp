@@ -12,8 +12,13 @@ import 'package:shared_preferences_android/shared_preferences_android.dart';
 import 'package:geolocator_apple/geolocator_apple.dart';
 import 'package:google_maps_flutter_ios/google_maps_flutter_ios.dart';
 import 'package:shared_preferences_ios/shared_preferences_ios.dart';
+import 'package:flutter_keyboard_visibility_linux/flutter_keyboard_visibility_linux.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences_linux/shared_preferences_linux.dart';
+import 'package:flutter_keyboard_visibility_macos/flutter_keyboard_visibility_macos.dart';
 import 'package:shared_preferences_macos/shared_preferences_macos.dart';
+import 'package:flutter_keyboard_visibility_windows/flutter_keyboard_visibility_windows.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences_windows/shared_preferences_windows.dart';
 
 @pragma('vm:entry-point')
@@ -85,6 +90,26 @@ class _PluginRegistrant {
 
     } else if (Platform.isLinux) {
       try {
+        FlutterKeyboardVisibilityPluginLinux.registerWith();
+      } catch (err) {
+        print(
+          '`flutter_keyboard_visibility_linux` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
+      try {
+        PackageInfoPlusLinuxPlugin.registerWith();
+      } catch (err) {
+        print(
+          '`package_info_plus` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
+      try {
         SharedPreferencesLinux.registerWith();
       } catch (err) {
         print(
@@ -96,6 +121,16 @@ class _PluginRegistrant {
 
     } else if (Platform.isMacOS) {
       try {
+        FlutterKeyboardVisibilityPluginMacos.registerWith();
+      } catch (err) {
+        print(
+          '`flutter_keyboard_visibility_macos` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
+      try {
         SharedPreferencesMacOS.registerWith();
       } catch (err) {
         print(
@@ -106,6 +141,26 @@ class _PluginRegistrant {
       }
 
     } else if (Platform.isWindows) {
+      try {
+        FlutterKeyboardVisibilityPluginWindows.registerWith();
+      } catch (err) {
+        print(
+          '`flutter_keyboard_visibility_windows` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
+      try {
+        PackageInfoPlusWindowsPlugin.registerWith();
+      } catch (err) {
+        print(
+          '`package_info_plus` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+        rethrow;
+      }
+
       try {
         SharedPreferencesWindows.registerWith();
       } catch (err) {

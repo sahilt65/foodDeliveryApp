@@ -1,5 +1,6 @@
 import 'package:ecommerceapp/base/custom_button.dart';
 import 'package:ecommerceapp/controller/location_controller.dart';
+import 'package:ecommerceapp/pages/address/widgets/search_location_dialog.dart';
 import 'package:ecommerceapp/routes/route_helper.dart';
 import 'package:ecommerceapp/utils/colors.dart';
 import 'package:ecommerceapp/utils/dimensions.dart';
@@ -21,6 +22,11 @@ class _PickAddressMapState extends State<PickAddressMap> {
   late LatLng _initialPosition;
   late GoogleMapController _mapController;
   late CameraPosition _cameraPosition;
+  // _onMapCreated(GoogleMapController controller) {
+  //   _mapController = controller;
+  // }
+  // GoogleMap()
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +35,7 @@ class _PickAddressMapState extends State<PickAddressMap> {
       _cameraPosition = CameraPosition(target: _initialPosition, zoom: 17);
     } else {
       if (Get.find<LocationController>().addressList.isNotEmpty) {
-        _initialPosition = LatLng(double.parse(Get.find<LocationController>().getAddress["lattitude"]),
+        _initialPosition = LatLng(double.parse(Get.find<LocationController>().getAddress["latitude"]),
             double.parse(Get.find<LocationController>().getAddress["longitude"]));
 
         _cameraPosition = CameraPosition(target: _initialPosition, zoom: 17);
@@ -48,6 +54,9 @@ class _PickAddressMapState extends State<PickAddressMap> {
             child: Stack(
               children: [
                 GoogleMap(
+                  onMapCreated: (GoogleMapController controller) {
+                    _mapController = controller;
+                  },
                   initialCameraPosition: CameraPosition(target: _initialPosition, zoom: 17),
                   zoomControlsEnabled: false,
                   onCameraMove: (CameraPosition cameraPosition) {
@@ -69,25 +78,36 @@ class _PickAddressMapState extends State<PickAddressMap> {
                   top: Dimensions.height45,
                   left: Dimensions.width20,
                   right: Dimensions.width20,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: Dimensions.width10),
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: AppColors.mainColor, borderRadius: BorderRadius.circular(Dimensions.radius20 / 2)),
-                    child: Row(children: [
-                      Icon(
-                        Icons.location_on,
-                        color: AppColors.yellowColor,
-                        size: 25,
-                      ),
-                      Expanded(
+                  child: InkWell(
+                    onTap: () => Get.dialog(LocationDialog(mapController: _mapController)),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: Dimensions.width10),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: AppColors.mainColor, borderRadius: BorderRadius.circular(Dimensions.radius20 / 2)),
+                      child: Row(children: [
+                        Icon(
+                          Icons.location_on,
+                          color: AppColors.yellowColor,
+                          size: 25,
+                        ),
+                        Expanded(
                           child: Text(
-                        '${locationController.pickPlacemark ?? ''}',
-                        style: TextStyle(color: Colors.white, fontSize: Dimensions.font16),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ))
-                    ]),
+                            '${locationController.pickPlacemark}',
+                            style: TextStyle(color: Colors.white, fontSize: Dimensions.font16),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        SizedBox(
+                          width: Dimensions.width10,
+                        ),
+                        Icon(
+                          Icons.search,
+                          color: AppColors.yellowColor,
+                        ),
+                      ]),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -105,9 +125,7 @@ class _PickAddressMapState extends State<PickAddressMap> {
                                     : 'Pick Location'
                                 : 'Service is not available in your area',
                             onpressed: (locationController.buttonDisabled || locationController.isLoading)
-                                ? () {
-                                    print("hey ye kya krr diya");
-                                  }
+                                ? null
                                 : () {
                                     if (locationController.pickPosition.longitude != 0 &&
                                         locationController.placemark.name != null) {

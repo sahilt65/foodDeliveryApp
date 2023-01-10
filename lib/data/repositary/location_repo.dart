@@ -41,4 +41,12 @@ class LocationRepo {
   Future<Response> getZone(String lat, String lng) async {
     return await apiClient.getData('${AppConstants.ZONE_URI}?&lat=$lat&lng=$lng');
   }
+
+  Future<Response> searchLocation(String text) async {
+    return await apiClient.getData('${AppConstants.SEARCH_LOCATION_URI}?search_text=$text');
+  }
+
+  Future<Response> setLocation(String placeId) async {
+    return await apiClient.getData('${AppConstants.PLACE_DETAILS_URI}?placeid=$placeId');
+  }
 }

@@ -48,11 +48,11 @@ class _AddAddressPage extends State<AddAddressPage> {
       Get.find<LocationController>().getUserAddress();
       _cameraPosition = CameraPosition(
           target: LatLng(
-        double.parse(Get.find<LocationController>().getAddress["lattitude"]),
+        double.parse(Get.find<LocationController>().getAddress["latitude"]),
         double.parse(Get.find<LocationController>().getAddress["longitude"]),
       ));
 
-      _initialPosition = LatLng(double.parse(Get.find<LocationController>().getAddress["lattitude"]),
+      _initialPosition = LatLng(double.parse(Get.find<LocationController>().getAddress["latitude"]),
           double.parse(Get.find<LocationController>().getAddress["longitude"]));
     }
   }
@@ -66,12 +66,13 @@ class _AddAddressPage extends State<AddAddressPage> {
       ),
       body: GetBuilder<UserController>(
         builder: (userController) {
-          if (userController.userModel != null && _contactPersonName.text.isEmpty) {
-            _contactPersonName.text = '${userController.userModel.name}';
-            _contactPersonNumber.text = '${userController.userModel.phone}';
-            if (Get.find<LocationController>().addressList.isNotEmpty) {
-              _addressController.text = Get.find<LocationController>().getUserAddress().address;
-            }
+          if (_contactPersonName.text.isEmpty) {
+            _contactPersonName.text = userController.userModel.name;
+            _contactPersonNumber.text = userController.userModel.phone;
+            /*Check This I dont know why this statement is causing error */
+            // if (Get.find<LocationController>().addressList.isNotEmpty) {
+            //   _addressController.text = Get.find<LocationController>().getUserAddress().address;
+            // }
           }
           return GetBuilder<LocationController>(
             builder: (locationController) {
@@ -79,7 +80,7 @@ class _AddAddressPage extends State<AddAddressPage> {
                   '${locationController.placemark.locality ?? ''}'
                   '${locationController.placemark.postalCode ?? ''}'
                   '${locationController.placemark.country ?? ''}';
-              print("Address in y view is : " + _addressController.text);
+              print("Address in y view is : ${_addressController.text}");
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,17 +213,19 @@ class _AddAddressPage extends State<AddAddressPage> {
                 child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   GestureDetector(
                     onTap: () {
-                      AddressModel _addressModel = AddressModel(
+                      AddressModel addressModel = AddressModel(
                         adressType: locationController.addressTypeList[locationController.addressTypeIndex],
                         contactPersonName: _contactPersonName.text,
                         contactPersonNumber: _contactPersonNumber.text,
                         address: _addressController.text,
-                        lattitude: locationController.position.latitude.toString(),
+                        latitude: locationController.position.latitude.toString(),
                         longitude: locationController.position.longitude.toString(),
                       );
-                      locationController.addAddress(_addressModel).then((response) {
+                      print("Sahil you did it ${addressModel.toString}");
+                      locationController.addAddress(addressModel).then((response) {
                         if (response.isSuccess) {
-                          Get.back();
+                          print("Sahil you did it ");
+                          Get.toNamed(RouteHelper.getInitial());
                           Get.snackbar("Address", "Added Successfully");
                         } else {
                           Get.snackbar("Address", "Couldn't Saved");
