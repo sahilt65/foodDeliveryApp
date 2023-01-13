@@ -1,4 +1,5 @@
 import 'package:ecommerceapp/helper/dependencies.dart';
+import 'package:ecommerceapp/models/order_model.dart';
 import 'package:ecommerceapp/pages/address/add_address_page.dart';
 import 'package:ecommerceapp/pages/address/pick_address_map.dart';
 import 'package:ecommerceapp/pages/auth/sign_in_page.dart';
@@ -7,6 +8,7 @@ import 'package:ecommerceapp/pages/food/popular_food_detail.dart';
 import 'package:ecommerceapp/pages/food/recommended_food_details.dart';
 import 'package:ecommerceapp/pages/home/home_page.dart';
 import 'package:ecommerceapp/pages/home/main_food_page.dart';
+import 'package:ecommerceapp/pages/payment/payment_page.dart';
 import 'package:ecommerceapp/pages/splash/splash_page.dart';
 import 'package:get/route_manager.dart';
 
@@ -19,6 +21,10 @@ class RouteHelper {
   static const String signIn = "/sign-in";
   static const String addAddress = "/add-address";
   static const String pickAddressMap = "/pick-address";
+  static const String payment = '/payment';
+  static const String orderSuccess = '/order-successfull';
+  
+
 
   static String getSplashPage() => '$splashPage';
   static String getInitial() => '$initial';
@@ -28,6 +34,9 @@ class RouteHelper {
   static String getSignInPage() => '$signIn';
   static String getAddressPage() => '$addAddress';
   static String getPickAddressPage() => '$pickAddressMap';
+  static String getPaymentPage(String id, int userID) => '$payment?id=$id&userID=$userID';
+  static String getOrderSuccess() => '$orderSuccess';
+
 
   static List<GetPage> routes = [
     GetPage(
@@ -87,6 +96,18 @@ class RouteHelper {
         return AddAddressPage();
       },
       transition: Transition.fadeIn,
-    )
+    ),
+    GetPage(
+        name: payment,
+        page: () => PaymentPage(
+              orderModel: OrderModel(
+                id: int.parse(Get.parameters['id']!),
+                userId: int.parse(Get.parameters['userID']!),
+              ),
+            )
+
+    ),
+
+    // GetPage(name: orderSuccess, page: ()=> OrderSuccesssPage()),
   ];
 }

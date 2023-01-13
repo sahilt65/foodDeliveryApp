@@ -5,6 +5,7 @@ import 'package:ecommerceapp/controller/cart_controller.dart';
 import 'package:ecommerceapp/controller/location_controller.dart';
 import 'package:ecommerceapp/controller/popular_product_controller.dart';
 import 'package:ecommerceapp/controller/recommended_product_controller.dart';
+import 'package:ecommerceapp/controller/user_controller.dart';
 import 'package:ecommerceapp/routes/route_helper.dart';
 import 'package:ecommerceapp/utils/app_constants.dart';
 import 'package:ecommerceapp/utils/colors.dart';
@@ -256,7 +257,7 @@ class CartPage extends StatelessWidget {
                             if (Get.find<LocationController>().addressList.isEmpty) {
                               Get.toNamed(RouteHelper.getAddressPage());
                             } else {
-                              Get.offNamed(RouteHelper.getInitial());
+                              Get.offNamed(RouteHelper.getPaymentPage("27", Get.find<UserController>().userModel.id));
                             }
                           } else {
                             ShowCustomSnackBar("You haven't Logged In\nPlease Log in first");
