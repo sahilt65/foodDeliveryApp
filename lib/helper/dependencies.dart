@@ -1,11 +1,13 @@
 import 'package:ecommerceapp/controller/auth_controller.dart';
 import 'package:ecommerceapp/controller/cart_controller.dart';
 import 'package:ecommerceapp/controller/location_controller.dart';
+import 'package:ecommerceapp/controller/order_controller.dart';
 import 'package:ecommerceapp/controller/user_controller.dart';
 import 'package:ecommerceapp/data/api/api_client.dart';
 import 'package:ecommerceapp/data/repositary/auth_repo.dart';
 import 'package:ecommerceapp/data/repositary/cart_repo.dart';
 import 'package:ecommerceapp/data/repositary/location_repo.dart';
+import 'package:ecommerceapp/data/repositary/order_repo.dart';
 import 'package:ecommerceapp/data/repositary/popular_product_repo.dart';
 import 'package:ecommerceapp/data/repositary/user_repo.dart';
 import 'package:get/get.dart';
@@ -30,6 +32,8 @@ Future<void> init() async {
   Get.lazyPut(() => RecommededProductRepo(apiClient: Get.find()));
   Get.lazyPut(() => CartRepo(sharedPreferences: Get.find()));
   Get.lazyPut(() => LocationRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
+  Get.lazyPut(() => OrderRepo(apiClient: Get.find()));
+
 
   //controllers
   Get.lazyPut(() => PopularProductController(popularProductRepo: Get.find()));
@@ -38,5 +42,7 @@ Future<void> init() async {
   Get.lazyPut(() => AuthController(authRepo: Get.find()));
   Get.lazyPut(() => UserController(userRepo: Get.find()));
   Get.lazyPut(() => LocationController(locationRepo: Get.find()));
+  Get.lazyPut(() => OrderController(orderRepo: Get.find()));
+
 
 }

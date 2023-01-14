@@ -8,6 +8,7 @@ import 'package:ecommerceapp/pages/food/popular_food_detail.dart';
 import 'package:ecommerceapp/pages/food/recommended_food_details.dart';
 import 'package:ecommerceapp/pages/home/home_page.dart';
 import 'package:ecommerceapp/pages/home/main_food_page.dart';
+import 'package:ecommerceapp/pages/payment/order_success_page.dart';
 import 'package:ecommerceapp/pages/payment/payment_page.dart';
 import 'package:ecommerceapp/pages/splash/splash_page.dart';
 import 'package:get/route_manager.dart';
@@ -23,7 +24,6 @@ class RouteHelper {
   static const String pickAddressMap = "/pick-address";
   static const String payment = '/payment';
   static const String orderSuccess = '/order-successfull';
-  
 
 
   static String getSplashPage() => '$splashPage';
@@ -35,7 +35,7 @@ class RouteHelper {
   static String getAddressPage() => '$addAddress';
   static String getPickAddressPage() => '$pickAddressMap';
   static String getPaymentPage(String id, int userID) => '$payment?id=$id&userID=$userID';
-  static String getOrderSuccess() => '$orderSuccess';
+  static String getOrderSuccessPage(String orderID, String status) => '$orderSuccess?id=$orderID&status=$status';
 
 
   static List<GetPage> routes = [
@@ -108,6 +108,11 @@ class RouteHelper {
 
     ),
 
-    // GetPage(name: orderSuccess, page: ()=> OrderSuccesssPage()),
+    GetPage(
+        name: orderSuccess,
+        page: () => OrderSuccessPage(
+              orderID: Get.parameters['id']!,
+              status: Get.parameters['status'].toString().contains('success') ? 1 : 0,
+            )),
   ];
 }

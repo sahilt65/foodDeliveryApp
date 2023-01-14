@@ -3,9 +3,11 @@ import 'package:ecommerceapp/base/show_custom_snack_bar.dart';
 import 'package:ecommerceapp/controller/auth_controller.dart';
 import 'package:ecommerceapp/controller/cart_controller.dart';
 import 'package:ecommerceapp/controller/location_controller.dart';
+import 'package:ecommerceapp/controller/order_controller.dart';
 import 'package:ecommerceapp/controller/popular_product_controller.dart';
 import 'package:ecommerceapp/controller/recommended_product_controller.dart';
 import 'package:ecommerceapp/controller/user_controller.dart';
+import 'package:ecommerceapp/models/place_order_model.dart';
 import 'package:ecommerceapp/routes/route_helper.dart';
 import 'package:ecommerceapp/utils/app_constants.dart';
 import 'package:ecommerceapp/utils/colors.dart';
@@ -257,7 +259,22 @@ class CartPage extends StatelessWidget {
                             if (Get.find<LocationController>().addressList.isEmpty) {
                               Get.toNamed(RouteHelper.getAddressPage());
                             } else {
-                              Get.offNamed(RouteHelper.getPaymentPage("27", Get.find<UserController>().userModel.id));
+                              var location = Get.find<LocationController>().getUserAddress();
+                              var cart = Get.find<CartController>().getItems;
+                              var user = Get.find<UserController>().userModel;
+                              PlaceOrderBody placeOrder = PlaceOrderBody(
+                                cart: cart,
+                                orderAmount: 100,
+                                orderNote: "Not about the food",
+                                address: location.address,
+                                latitude: location.latitude,
+                                longitude: location.longitude,
+                                contactPersonName: user.name,
+                                contactPersonNumber: user.phone,
+                                distance: 100,
+                                scheduleAt: '',
+                              );
+                              Get.find<OrderController>().placeOrder(placeOrder, _callback);
                             }
                           } else {
                             ShowCustomSnackBar("You haven't Logged In\nPlease Log in first");
@@ -282,5 +299,13 @@ class CartPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _callback(bool isSuccess, String message, String orderID) {
+    if (isSuccess) {
+      Get.offNamed(RouteHelper.getPaymentPage(orderID, Get.find<UserController>().userModel.id));
+    } else {
+      ShowCustomSnackBar(message);
+    }
   }
 }
